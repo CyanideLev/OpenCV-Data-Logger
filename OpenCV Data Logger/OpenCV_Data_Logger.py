@@ -1,20 +1,31 @@
 import cv2 as cv
 import imutils as imu
-import imutils.perspective as imper
+import imutils.perspective as imp
 
-Digits = {
-    (1,1,1,0,1,1,1) : 0,
-    (0,0,1,0,0,1,0) : 1,
-    }
+Digit_Table = { 
+    
+    (1, 1, 1, 0, 1, 1, 1): 0,
+    (0, 0, 1, 0, 0, 1, 0): 1,
+    (1, 0, 1, 1, 1, 1, 0): 2,
+    (1, 0, 1, 1, 0, 1, 1): 3,
+    (0, 1, 1, 1, 0, 1, 0): 4,
+    (1, 1, 0, 1, 0, 1, 1): 5,
+    (1, 1, 0, 1, 1, 1, 1): 6,
+    (1, 0, 1, 0, 0, 1, 0): 7,
+    (1, 1, 1, 1, 1, 1, 1): 8,
+    (1, 1, 1, 1, 0, 1, 1): 9
+    
+}
 
 def canny_edge_detection(frame):
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    blur = cv.GaussianBlur(src=gray, ksize=(3,5), sigmaX=0.5)
-    edge = cv.Canny(blur, 70, 135)
+    blur = cv.GaussianBlur(src=gray, ksize=(5,5), sigmaX=0.5)
+    edge = cv.Canny(blur, 50, 200, 255)
     
     return blur, edge
 
-def main():
+#
+def Feed():
     vid = cv.VideoCapture(0)
 
     while True:
@@ -24,7 +35,7 @@ def main():
             break
     
         blur, edge = canny_edge_detection(frame)
-
+        #show live feed in new windows
         cv.imshow('original', frame)
         #cv.imshow('blur', blur)
         cv.imshow('edge', edge)
@@ -34,5 +45,5 @@ def main():
     vid.release()
     cv.destroyAllWindows()
 
-if __name__ == "__main__":
-    main()
+if __name__ == "__Feed__":
+    Feed()
