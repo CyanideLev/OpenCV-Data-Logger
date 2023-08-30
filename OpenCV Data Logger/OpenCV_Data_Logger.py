@@ -1,5 +1,6 @@
 import cv2 as cv
 import imutils as imu
+import numpy as nu
 
 Digit_Table = { 
     
@@ -36,26 +37,30 @@ def main():
         blur, edge = canny_edge_detection(frame)
         cont = cv.findContours(edge.copy(), cv.RETR_EXTERNAL,
             cv.CHAIN_APPROX_SIMPLE)
-        cont = cont[0] if len(cont) == 2 else cont[1]
-        max_cont = max(cont, key=cv.contourArea)
-        #cont = imu.grab_contours(cont)
-        #cont = sorted(cont, key=cv.contourArea, reverse=True)
-        #displayCont = None
-        
-        #for c in cont:
-            #peri = cv.arcLength(c, True)
-            #approx = cv.approxPolyDP(c, 0.02 * peri, True)
+        cont = imu.grab_contours(cont)
+        cont = sorted(cont, key=cv.contourArea, reverse=True)
+        displayCont = None
+      
+        #while True:
+            #ret, frame = vid.read()
+            #if not ret:
+                #print('video not captured!')
+                #break
+            #for c in cont:
+            #peri = cv.arcLength
+            #approx = cv.approxPolyDP(c, 0.02 * peri)
             #if len(approx) == 4:
                 #displayCont = approx
-        
-        contour_vid = vid.read()
-        cv.drawContours(contour_vid,[max_cont],0,(0,255,0),2)       
-        #show live feed in new windows
+                #break
+            #return displayCont
+        #print(displayCont)   
+        #cv.drawContours(cont, displayCont , 0, (0,255,0), 3)       
+        #show live feed in new windows 
         cv.imshow('original', frame)
         #cv.imshow('blur', blur)
         cv.imshow('edge', edge)
-        cv.imshow('contour', contour_vid)        
-
+        #cv.imshow('contour', cont)        
+        
         if cv.waitKey(1) & 0xFF == ord('q'):
             break
     
